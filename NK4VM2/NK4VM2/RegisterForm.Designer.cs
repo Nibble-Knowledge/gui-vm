@@ -40,7 +40,7 @@
             this.columnHeader2});
             this.registerListView.Location = new System.Drawing.Point(12, 12);
             this.registerListView.Name = "registerListView";
-            this.registerListView.Size = new System.Drawing.Size(146, 176);
+            this.registerListView.Size = new System.Drawing.Size(146, 108);
             this.registerListView.TabIndex = 0;
             this.registerListView.UseCompatibleStateImageBehavior = false;
             this.registerListView.View = System.Windows.Forms.View.Details;
@@ -58,7 +58,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(183, 211);
+            this.ClientSize = new System.Drawing.Size(183, 137);
             this.Controls.Add(this.registerListView);
             this.Name = "RegisterForm";
             this.Text = "RegisterForm";

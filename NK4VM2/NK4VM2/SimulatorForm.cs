@@ -304,6 +304,12 @@ namespace NK4VM2
         {
             try
             {
+                //Make sure a program is not already running
+                if (thread.IsAlive)
+                {
+                    SetText(messages.Text + "CANNOT STEP WHILE RUNNING\r\n", messages);
+                    return;
+                }
                 if (int.Parse(startToolStripTextBox.Text) > 65535 || int.Parse(startToolStripTextBox.Text) < 19)
                 {
                     messages.Text = "Invalid starting location. \r\n";
