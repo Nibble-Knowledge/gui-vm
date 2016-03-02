@@ -141,6 +141,10 @@ namespace NK4VM2
             }
         }
 
+        /// <summary>
+        /// Assembles the current text file based on the level given. 2 = macro, 1 = low level assembler
+        /// </summary>
+        /// <param name="level"></param>
         public void Assemble_File(int level)
         {
             if (fileChanged)
@@ -220,6 +224,9 @@ namespace NK4VM2
             }
         }
 
+        /// <summary>
+        /// Saves the file
+        /// </summary>
         public void Save_File()
         {
             File.WriteAllText(this.Name, fileFormTextBox.Text);

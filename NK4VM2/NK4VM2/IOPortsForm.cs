@@ -12,7 +12,14 @@ namespace NK4VM2
 {
     public partial class IOPortsForm : Form
     {
+        /// <summary>
+        /// Local refence to main memory
+        /// </summary>
         private UInt16[] memory;
+
+        /// <summary>
+        /// Used for cross threaded access to the IO window
+        /// </summary>
         delegate void UpdateIOCallback();
 
         public IOPortsForm(UInt16 [] mem)
@@ -23,7 +30,9 @@ namespace NK4VM2
             Update_IO();
         }
 
-
+        /// <summary>
+        /// Updates the contents of the IO window
+        /// </summary>
         public void Update_IO()
         {
             if (this.ioPortsListView.InvokeRequired)

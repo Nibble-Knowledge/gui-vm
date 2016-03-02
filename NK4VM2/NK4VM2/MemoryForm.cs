@@ -12,6 +12,9 @@ namespace NK4VM2
 {
     public partial class MemoryForm : Form
     {
+        /// <summary>
+        /// Local reference to main memory
+        /// </summary>
         private UInt16[] memory;
 
         public MemoryForm()

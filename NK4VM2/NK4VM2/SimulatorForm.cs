@@ -13,20 +13,82 @@ namespace NK4VM2
 {
     public partial class SimulatorForm : Form
     {
+        /// <summary>
+        /// Local reference to main memory
+        /// </summary>
         private static UInt16[] mainMemory;
+
+        /// <summary>
+        /// Local reference to registers
+        /// </summary>
         private static int[] registers; //A = 0, MEM = 1, STAT = 2, PC = 3 
+
+        /// <summary>
+        /// Next instruction to be run
+        /// </summary>
         private static String nextInstruction;
+
+        /// <summary>
+        /// Instruction just run
+        /// </summary>
         private static String currentInstruction;
+
+        /// <summary>
+        /// Used to reset PC on startup
+        /// </summary>
         private static bool firstTime;
+
+        /// <summary>
+        /// Thread to run a program in the background
+        /// </summary>
         private static Thread thread;
+
+        /// <summary>
+        /// Used to terminate thread
+        /// </summary>
         private static bool shouldStop;
+
+        /// <summary>
+        /// Period for  program speed, Max = 15000, Min = 10
+        /// </summary>
         private static int period;
+
+        /// <summary>
+        /// Local reference to messages view
+        /// </summary>
         private TextBox messages;
+
+        /// <summary>
+        /// Local reference to IO form
+        /// </summary>
         private IOPortsForm ioPortsForm;
+
+        /// <summary>
+        /// Local reference to Register form
+        /// </summary>
         private RegisterForm registerForm;
+
+        /// <summary>
+        /// Local reference to memory form
+        /// </summary>
         private MemoryForm memoryForm;
+
+        /// <summary>
+        /// Handles decoding and fetching of instructions
+        /// </summary>
         private Instruction instructionWorker;
+
+        /// <summary>
+        /// Allows for cross threaded use of a text box
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="textBox"></param>
         delegate void SetTextCallback(string text, TextBox textBox);
+
+        /// <summary>
+        /// Allows for cross threaded use of adjusting the scroll bar on text box
+        /// </summary>
+        /// <param name="textBox"></param>
         delegate void SetScrollCallback(TextBox textBox);
 
         /// <summary>
@@ -220,8 +282,15 @@ namespace NK4VM2
 
         }
 
-
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="mem"></param>
+        /// <param name="regs"></param>
+        /// <param name="mes"></param>
+        /// <param name="ioPortsForm"></param>
+        /// <param name="registerForm"></param>
+        /// <param name="memoryForm"></param>
         public SimulatorForm(UInt16[] mem, int[] regs, TextBox mes, IOPortsForm ioPortsForm, RegisterForm registerForm, MemoryForm memoryForm)
         {
             InitializeComponent();
@@ -348,17 +417,42 @@ namespace NK4VM2
             }
         }
 
+        private void periodToolStripTextBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (int.Parse(periodToolStripTextBox.Text) > 15000 || int.Parse(periodToolStripTextBox.Text) < 10)
+                {
+                    return;
+                }
+                period = int.Parse(periodToolStripTextBox.Text);
+            }
+            catch (Exception)
+            {
+            }
+
+
+        }
+
+
 
         //-----------------------THREAD METHODS------------------------//
 
+        /// <summary>
+        /// Used to run program in background
+        /// </summary>
         public void run()
         {
-
+            
             shouldStop = false;
+
             while (!shouldStop && ((registers[2] & 0x2) != 0x2))
             {
+                //Fetch instruction
                 instructionWorker.Fetch_Instruction();
                 Thread.Sleep(period);
+
+                //Update the forms that are currently open
                 if (ioPortsForm != null)
                 {
                     ioPortsForm.Update_IO();
@@ -367,12 +461,18 @@ namespace NK4VM2
                 {
                     registerForm.Update_Registers();
                 }
+                //Update message window and instruction windows
                 SetText(currentInstruction, previousInstructionTextBox);
                 SetText(nextInstruction, nextInstructionTextBox);
                 Update_Messages();
             }
         }
 
+        /// <summary>
+        /// Allows for cross threaded access to a text box
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="textBox"></param>
         private void SetText(string text, TextBox textBox)
         {
             // InvokeRequired required compares the thread ID of the
@@ -389,6 +489,10 @@ namespace NK4VM2
             }
         }
 
+        /// <summary>
+        /// Allows for cross threaded access to auto scroll features of a textbox
+        /// </summary>
+        /// <param name="textBox"></param>
         private void SetScroll(TextBox textBox)
         {
             // InvokeRequired required compares the thread ID of the
@@ -406,6 +510,12 @@ namespace NK4VM2
             }
         }
 
+        /// <summary>
+        /// Updates local references incase new windows have been opened
+        /// </summary>
+        /// <param name="ioPortsForm"></param>
+        /// <param name="registerForm"></param>
+        /// <param name="memoryForm"></param>
         public void Update_References(IOPortsForm ioPortsForm, RegisterForm registerForm, MemoryForm memoryForm)
         {
             this.ioPortsForm = ioPortsForm;
@@ -413,6 +523,9 @@ namespace NK4VM2
             this.memoryForm = memoryForm;
         }
 
+        /// <summary>
+        /// Prints new messages to the messages window
+        /// </summary>
         private void Update_Messages()
         {
             if ((registers[2] & 0x2) == 0x2)
@@ -431,23 +544,7 @@ namespace NK4VM2
             SetScroll(messages);
         }
 
-        private void periodToolStripTextBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (int.Parse(periodToolStripTextBox.Text) > 15000 || int.Parse(periodToolStripTextBox.Text) < 10)
-                {
-                    return;
-                }
-                period = int.Parse(periodToolStripTextBox.Text);
-            }
-            catch (Exception)
-            {
-            }
-
-
-        }
-
+   
 
 
 

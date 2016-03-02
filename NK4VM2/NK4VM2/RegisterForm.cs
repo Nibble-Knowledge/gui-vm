@@ -12,8 +12,14 @@ namespace NK4VM2
 {
     public partial class RegisterForm : Form
     {
-
+        /// <summary>
+        /// Local reference to the register array
+        /// </summary>
         private int[] registers; //A = 0, MEM = 1, STAT = 2, PC = 3 
+
+        /// <summary>
+        /// Allows for cross threaded use of updating the register views
+        /// </summary>
         delegate void UpdateRegistersCallback();
 
         public RegisterForm(int [] reg)

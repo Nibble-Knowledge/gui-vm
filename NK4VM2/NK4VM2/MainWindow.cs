@@ -19,13 +19,44 @@ namespace NK4VM2
     public partial class MainWindow : Form
     {
 
+        /// <summary>
+        /// Local reference to the messages window
+        /// </summary>
         public static TextBox messages;
+
+        /// <summary>
+        /// Main memory
+        /// </summary>
         public static UInt16[] mainMemory;
+
+        /// <summary>
+        /// Register array
+        /// </summary>
         public static int[] registers; //A = 0, MEM = 1, STAT = 2, PC = 3
+
+        /// <summary>
+        /// Only one file can be open at a time
+        /// </summary>
         public FileForm fileForm;
+
+        /// <summary>
+        /// Only one IO window can be open at a time
+        /// </summary>
         public IOPortsForm ioPortsForm;
+
+        /// <summary>
+        /// Only one memory window can be open at a time
+        /// </summary>
         public MemoryForm memoryForm;
+
+        /// <summary>
+        /// Only one register window can be open at a time
+        /// </summary>
         public RegisterForm registerForm;
+
+        /// <summary>
+        /// Only one simulator can be open at a time
+        /// </summary>
         public SimulatorForm simulatorForm;
 
         public MainWindow()
