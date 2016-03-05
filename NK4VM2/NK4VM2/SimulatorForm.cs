@@ -294,7 +294,9 @@ namespace NK4VM2
         public SimulatorForm(UInt16[] mem, int[] regs, TextBox mes, IOPortsForm ioPortsForm, RegisterForm registerForm, MemoryForm memoryForm)
         {
             InitializeComponent();
-            Update_References( ioPortsForm, registerForm, memoryForm);
+            this.ioPortsForm = ioPortsForm;
+            this.registerForm = registerForm;
+            this.memoryForm = memoryForm;
             instructionWorker = new Instruction();
             messages = mes;
             mainMemory = mem;
@@ -508,19 +510,6 @@ namespace NK4VM2
                 messages.SelectionStart = messages.Text.Length;
                 messages.ScrollToCaret();
             }
-        }
-
-        /// <summary>
-        /// Updates local references incase new windows have been opened
-        /// </summary>
-        /// <param name="ioPortsForm"></param>
-        /// <param name="registerForm"></param>
-        /// <param name="memoryForm"></param>
-        public void Update_References(IOPortsForm ioPortsForm, RegisterForm registerForm, MemoryForm memoryForm)
-        {
-            this.ioPortsForm = ioPortsForm;
-            this.registerForm = registerForm;
-            this.memoryForm = memoryForm;
         }
 
         /// <summary>
