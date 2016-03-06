@@ -9,3 +9,18 @@ C:\Users\Bailey\OneDrive\Documents\Engineering\Courses\4th Year\ENEL 500\NK4VM2\
 C:\Users\Bailey\OneDrive\Documents\Engineering\Courses\4th Year\ENEL 500\NK4VM2\NK4VM2\obj\Debug\NK4VM2.MainWindow.resources
 C:\Users\Bailey\OneDrive\Documents\Engineering\Courses\4th Year\ENEL 500\NK4VM2\NK4VM2\obj\Debug\NK4VM2.MemoryForm.resources
 C:\Users\Bailey\OneDrive\Documents\Engineering\Courses\4th Year\ENEL 500\NK4VM2\NK4VM2\obj\Debug\NK4VM2.FileForm.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\bin\Debug\NK4VM2.exe.config
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\bin\Debug\NK4VM2.exe
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\bin\Debug\NK4VM2.pdb
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.csprojResolveAssemblyReference.cache
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.FileForm.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.IOPortsForm.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.MainWindow.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.MemoryForm.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.Properties.Resources.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.RegisterForm.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.SimulatorForm.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.csproj.GenerateResource.Cache
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.exe
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.pdb
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.PeripheralForm.resources

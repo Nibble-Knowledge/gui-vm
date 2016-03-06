@@ -59,6 +59,11 @@ namespace NK4VM2
         /// </summary>
         public SimulatorForm simulatorForm;
 
+        /// <summary>
+        /// Only one simulator can be open at a time
+        /// </summary>
+        public PeripheralForm peripheralForm;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -209,12 +214,28 @@ namespace NK4VM2
             simulatorForm.Show();
         }
 
+        private void peripheralsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (peripheralForm == null)
+            {
+                peripheralForm = new PeripheralForm(mainMemory);
+
+                // Set the parent form of the child window.
+                peripheralForm.MdiParent = this;
+                // Display the new form.
+                peripheralForm.Text = "Peripherals";
+            }
+
+            peripheralForm.Show();
+        }
+
         private void openAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             memoryToolStripMenuItem_Click(sender, e);
             registersToolStripMenuItem_Click(sender, e);
             iOPortsToolStripMenuItem_Click(sender, e);
             simulatorToolStripMenuItem_Click(sender, e);
+            peripheralsToolStripMenuItem_Click(sender, e);
         }
 
 

@@ -1,0 +1,9 @@
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\bin\Debug\PeripherialClient.exe.config
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\bin\Debug\PeripherialClient.exe
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\bin\Debug\PeripherialClient.pdb
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\obj\Debug\PeripherialClient.csprojResolveAssemblyReference.cache
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\obj\Debug\PeripherialClient.MainWindow.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\obj\Debug\PeripherialClient.Properties.Resources.resources
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\obj\Debug\PeripherialClient.csproj.GenerateResource.Cache
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\obj\Debug\PeripherialClient.exe
+C:\Users\ryan\Documents\code\gui-vm\NK4VM2\PeripherialClient\obj\Debug\PeripherialClient.pdb
