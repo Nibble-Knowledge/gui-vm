@@ -147,10 +147,7 @@ namespace NK4VM2
 
             //Show memory contents
             memoryForm.Update_Memory(mainMemory);
-            if (simulatorForm != null)
-            {
-                simulatorForm.Update_References(ioPortsForm, registerForm, memoryForm);
-            }
+
         }
 
         private void registersToolStripMenuItem_Click(object sender, EventArgs e)
@@ -167,10 +164,6 @@ namespace NK4VM2
 
             registerForm.Show();
 
-            if (simulatorForm != null)
-            {
-                simulatorForm.Update_References(ioPortsForm, registerForm, memoryForm);
-            }
 
         }
 
@@ -188,10 +181,6 @@ namespace NK4VM2
 
             ioPortsForm.Show();
 
-            if (simulatorForm != null)
-            {
-                simulatorForm.Update_References(ioPortsForm, registerForm, memoryForm);
-            }
         }
 
         private void simulatorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -229,6 +218,30 @@ namespace NK4VM2
         private void MainWindow_ClientSizeChanged(object sender, EventArgs e)
         {
             messagesTextBox.Height = this.ClientSize.Height / 4;
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            MdiClient ctlMDI;
+            // Loop through all of the form's controls looking
+            // for the control of type MdiClient.
+            foreach (Control ctl in this.Controls)
+            {
+                try
+                {
+                    // Attempt to cast the control to type MdiClient.
+                    ctlMDI = (MdiClient)ctl;
+
+                    // Set the BackColor of the MdiClient control.
+                    ctlMDI.BackColor = this.BackColor;
+                }
+                catch (InvalidCastException)
+                {
+                    
+                    // Catch and ignore the error if casting failed.
+                }
+            }
+
         }
 
 
