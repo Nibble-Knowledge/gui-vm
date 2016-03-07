@@ -110,7 +110,8 @@ namespace NK4VM2
                     case "STR":
                         if (registers[1] == 1)
                         {
-                            mainMemory[registers[1]]= (UInt16)(((UInt16)registers[0] & 0xC) | mainMemory[registers[1]]);
+					mainMemory[registers[1]] &= 0x3;
+					mainMemory[registers[1]]= (UInt16)(((UInt16)registers[0] & 0xC) | mainMemory[registers[1]]);
                         }
                         else
                         {
@@ -162,7 +163,7 @@ namespace NK4VM2
                     case "JMP":
                         if (registers[0] == 0)
                         {
-                            registers[2] = registers[1];
+                            registers[3] = registers[1];
                         }
                         break;
                     case "CXA":
