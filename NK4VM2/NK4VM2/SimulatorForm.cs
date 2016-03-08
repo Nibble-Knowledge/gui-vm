@@ -114,7 +114,11 @@ namespace NK4VM2
 						{
 							registers[0] = (Bus.Get_Values())[0];
 						}
-                        registers[0] = mainMemory[registers[1]];
+						else
+						{
+							registers[0] = mainMemory[registers[1]];
+						}
+                        
                         break;
                     case "STR":
 

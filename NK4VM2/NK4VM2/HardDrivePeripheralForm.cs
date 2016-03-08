@@ -78,6 +78,7 @@ namespace NK4VM2
 			
 			hdRegisters = new int[16];
 			interfaceRegisters = new int[5];
+
             ///Set all registers to 0, even though this may not be the case in real life
             for (int i = 8; i < 16; i++)
             {
@@ -94,9 +95,11 @@ namespace NK4VM2
             dataLeft = 0;
             //Start at a random state so that the programmer must reset before using
             state = 6;
+
 			hardDriveStateTextBox.Text = state.ToString();
 			Update_View(hdRegisterListView);
 			Update_View(interfaceRegisterListView);
+
 			Thread thread = new Thread(run);
 			thread.Start();
         }
@@ -138,18 +141,7 @@ namespace NK4VM2
                     case 7:
                         if (!DIOR)
                         {				
-                            if(((hdRegisters[0xF] & 0x8) == 0x8) && (interfaceRegisters[0] == 0x8)) //Data is being read from a sector
-                            {
-								AccessHD(dataLeft, false);
-                                dataLeft--;
-
-                                //If all the data has been transfered, turn off the data ready flag
-                                if (dataLeft == 0)
-                                {
-                                    hdRegisters[0xF] &= 0x00F0;
-                                }
-                            }
-							Bus.dataBus = hdRegisters[interfaceRegisters[0]] & 0xF000;   //Send the first 4 bits of data from the hard drive back to CPU
+                         
                         }
                         else if (!DIOW) //Writing to a hard drive register;
                         {
@@ -164,7 +156,7 @@ namespace NK4VM2
                                     //This is a hard drive write/read command
                                     hdRegisters[0xF] |= 0x8;
                                     dataLeft = 256 * hdRegisters[0xA]; //There are 512 bytes of data in each sector, reg A is how many registers to transfer, each transfer
-                                                                                                    //sends 2 bytes at a time, therefore 256 transfers required per sector
+									dataLeft--; 						                     //sends 2 bytes at a time, therefore 256 transfers required per sector
                                 }
 
                             } //A write to a sector has been started based on the 0x8 bit in status being on, and the data register is selected
@@ -175,7 +167,7 @@ namespace NK4VM2
                                 dataLeft--;
 
                                 //If all the data has been transfered to the sector, update the data ready flag in status
-                                if (dataLeft == 0)
+                                if (dataLeft == -1)
                                 {
                                     hdRegisters[0xF] &= 0x00F0;
                                 }
@@ -190,23 +182,13 @@ namespace NK4VM2
                         }
                         break;
                     case 8:
-                        if (!DIOR)
-                        {
-							Bus.dataBus = hdRegisters[interfaceRegisters[0]] & 0x0F00;    //Send the next 4 bits of data from the hard drive back to CPU
-                        }
+
                         break;
                     case 9:
-                        if (!DIOR)
-                        {
-							Bus.dataBus = hdRegisters[interfaceRegisters[0]] & 0x00F0;   //Send the next 4 bits of data from the hard drive back to CPU
-                        }
+
                         break;
                     case 10:
-                        if (!DIOR)
-                        {
-							Bus.dataBus = hdRegisters[interfaceRegisters[0]] & 0x000F;   //Send the next 4 bits of data from the hard drive back to CPU
-                        }
-                        state = 1;
+
 						DIOR = true;
 						DIOW = true;
                         break;
@@ -215,14 +197,52 @@ namespace NK4VM2
                 }
                 state++;
             }
-            else
+            else //Rising edge
             {
                 //State 7 is when the transfer actually happens, update the DIOR/DIOW to initiate transfer with hard drive
                 if (state == 7)
                 {
                     DIOR = !read;
                     DIOW = !write;
+
+					if (!DIOR)
+					{
+						if (((hdRegisters[0xF] & 0x8) == 0x8) && (interfaceRegisters[0] == 0x8)) //Data is being read from a sector
+						{
+							AccessHD(dataLeft, false);
+							dataLeft--;
+
+							//If all the data has been transfered, turn off the data ready flag
+							if (dataLeft == -1)
+							{
+								hdRegisters[0xF] &= 0x00F0;
+							}
+						}
+						Bus.Update_Bus((hdRegisters[interfaceRegisters[0]] & 0xF000) >> 12, Bus.Get_Values()[1], Bus.Get_Values()[0], id);
+					}
                 }
+				else if (state == 8)
+				{
+					if (!DIOR)
+					{
+						Bus.Update_Bus((hdRegisters[interfaceRegisters[0]] & 0x0F00) >> 8, Bus.Get_Values()[1], Bus.Get_Values()[0], id);   //Send the next 4 bits of data from the hard drive back to CPU
+					}
+				}
+				else if (state == 9)
+				{
+					if (!DIOR)
+					{
+						Bus.Update_Bus((hdRegisters[interfaceRegisters[0]] & 0x00F0) >> 4, Bus.Get_Values()[1], Bus.Get_Values()[0], id);   //Send the next 4 bits of data from the hard drive back to CPU
+					}
+				}
+				else if (state == 10)
+				{
+					if (!DIOR)
+					{
+						Bus.Update_Bus((hdRegisters[interfaceRegisters[0]] & 0x000F), Bus.Get_Values()[1], Bus.Get_Values()[0], id);  //Send the next 4 bits of data from the hard drive back to CPU
+					}
+					state = 1;
+				}
             }
 
 			Update_View(hdRegisterListView);
@@ -238,10 +258,10 @@ namespace NK4VM2
         public void AccessHD(int address, bool write)
         {
 			int LBA = 0;
-			LBA |= interfaceRegisters[0xB];
-			LBA |= (interfaceRegisters[0xC] << 8);
-			LBA |= (interfaceRegisters[0xD] << 16);
-			LBA |= ((interfaceRegisters[0xE] & 0xF) << 24);
+			LBA |= hdRegisters[0xB];
+			LBA |= (hdRegisters[0xC] << 8);
+			LBA |= (hdRegisters[0xD] << 16);
+			LBA |= ((hdRegisters[0xE] & 0xF) << 24);
 
 			if (write)
 			{
@@ -249,7 +269,7 @@ namespace NK4VM2
 			}
 			else
 			{
-				hdRegisters[0x8] = hd.contents[LBA, (256 - address)];
+				hdRegisters[0x8] = hd.contents[LBA, (255 - address)];
 			}
         }
 
