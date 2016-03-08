@@ -17,6 +17,7 @@ namespace NK4VM2
         /// </summary>
         private UInt16[] memory;
 
+
         /// <summary>
         /// Used for cross threaded access to the IO window
         /// </summary>

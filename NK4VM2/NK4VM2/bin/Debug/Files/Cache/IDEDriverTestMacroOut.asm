@@ -8,6 +8,8 @@ INF 19
 NOP 1000
 LOD N_[F]
 STR CHIP_SELECT
+LOD N_[0]
+STR STATUS_BUS
 LOD N_[4]
 STR STATUS_BUS
 LOD N_[0]
@@ -65,7 +67,7 @@ HLT
 IDE_DRIVER.Enter:
 
 #Subject to change if necessary
-LOD N_[1]
+LOD N_[0]
 STR CHIP_SELECT[0]
 
 #Arrange our location table
@@ -865,7 +867,7 @@ LOD N_[0]
 STR STATUS_BUS[0]
 
 IDE_DRIVER.Done:
-LOD N_[0]
+LOD N_[15]
 STR CHIP_SELECT[0]
 #Exit - this needs the return address to be supplied
 LOD N_[0]

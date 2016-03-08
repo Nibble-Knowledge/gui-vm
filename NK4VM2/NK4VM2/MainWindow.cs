@@ -59,6 +59,11 @@ namespace NK4VM2
         /// </summary>
         public SimulatorForm simulatorForm;
 
+		public HardDrivePeripheralForm hardDrivePeripheralForm;
+
+		public BusForm busForm;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -68,6 +73,7 @@ namespace NK4VM2
             mainMemory = new UInt16[65536];
             Reset_Memory();
             registers = new int[4];
+			Bus.Setup();
 
             for (int i =  0; i <  4; i++)
             {
@@ -141,12 +147,17 @@ namespace NK4VM2
                 memoryForm = new MemoryForm();
                 // Set the parent form of the child window.
                 memoryForm.MdiParent = this;
-                // Display the new form.
+
+				memoryForm.FormClosing += Close_FormMemory;
             }
             memoryForm.Show();
 
             //Show memory contents
             memoryForm.Update_Memory(mainMemory);
+			if (simulatorForm != null)
+			{
+				simulatorForm.Update_References(ioPortsForm, registerForm, memoryForm, busForm);
+			}
 
         }
 
@@ -158,12 +169,17 @@ namespace NK4VM2
 
                 // Set the parent form of the child window.
                 registerForm.MdiParent = this;
-                // Display the new form.
+                
                 registerForm.Text = "Registers";
+
+				registerForm.FormClosing += Close_FormRegister;
             }
 
             registerForm.Show();
-
+			if (simulatorForm != null)
+			{
+				simulatorForm.Update_References(ioPortsForm, registerForm, memoryForm, busForm);
+			}
 
         }
 
@@ -177,9 +193,15 @@ namespace NK4VM2
                 ioPortsForm.MdiParent = this;
                 // Display the new form.
                 ioPortsForm.Text = "IO Ports";
+
+				ioPortsForm.FormClosing += Close_FormIO;
             }
 
             ioPortsForm.Show();
+			if (simulatorForm != null)
+			{
+				simulatorForm.Update_References(ioPortsForm, registerForm, memoryForm, busForm);
+			}
 
         }
 
@@ -187,12 +209,14 @@ namespace NK4VM2
         {
             if (simulatorForm == null)
             {
-                simulatorForm = new SimulatorForm(mainMemory, registers, messages, ioPortsForm, registerForm, memoryForm);
+                simulatorForm = new SimulatorForm(mainMemory, registers, messages, ioPortsForm, registerForm, memoryForm, busForm);
 
                 // Set the parent form of the child window.
                 simulatorForm.MdiParent = this;
                 // Display the new form.
                 simulatorForm.Text = "Simulator";
+
+				simulatorForm.FormClosing += Close_FormSimulator;
             }
 
             simulatorForm.Show();
@@ -204,8 +228,43 @@ namespace NK4VM2
             registersToolStripMenuItem_Click(sender, e);
             iOPortsToolStripMenuItem_Click(sender, e);
             simulatorToolStripMenuItem_Click(sender, e);
+			busToolStripMenuItem_Click(sender, e);
         }
 
+		private void busToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (busForm == null)
+			{
+				busForm = new BusForm();
+				busForm.FormClosing += Close_FormBus;
+				busForm.MdiParent = this;
+				busForm.Text = "Bus";
+			}
+			busForm.Show();
+
+			if (simulatorForm != null)
+			{
+				simulatorForm.Update_References(ioPortsForm, registerForm, memoryForm, busForm);
+			}
+			
+		}
+
+		private void hardDriveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (hardDrivePeripheralForm == null)
+			{
+				hardDrivePeripheralForm = new HardDrivePeripheralForm();
+
+				// Set the parent form of the child window.
+				hardDrivePeripheralForm.MdiParent = this;
+				// Display the new form.
+				hardDrivePeripheralForm.Text = "Hard Drive";
+
+				hardDrivePeripheralForm.FormClosing += Close_FormHD;
+			}
+
+			hardDrivePeripheralForm.Show();
+		}
 
 
         //--------------------------- RESIZE LISTENERS---------------------------//
@@ -244,6 +303,34 @@ namespace NK4VM2
 
         }
 
+
+		//-------------------------CLOSE FORM HANDLERS--------------------//
+
+		public void Close_FormBus(object sender, EventArgs e)
+		{
+				busForm = null;
+		}
+		public void Close_FormMemory(object sender, EventArgs e)
+		{
+			memoryForm = null;
+		}
+		public void Close_FormIO(object sender, EventArgs e)
+		{
+			ioPortsForm = null;
+		}
+		public void Close_FormSimulator(object sender, EventArgs e)
+		{
+			simulatorForm = null;
+		}
+		public void Close_FormRegister(object sender, EventArgs e)
+		{
+			registerForm = null;
+		}
+		public void Close_FormHD(object sender, EventArgs e)
+		{
+			hardDrivePeripheralForm.Stop_Thread();
+			hardDrivePeripheralForm = null;
+		}
 
 
     }

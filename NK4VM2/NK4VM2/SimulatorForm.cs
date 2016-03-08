@@ -73,6 +73,11 @@ namespace NK4VM2
         /// </summary>
         private MemoryForm memoryForm;
 
+		/// <summary>
+		/// Local reference to the bus form
+		/// </summary>
+		private BusForm busForm;
+
         /// <summary>
         /// Handles decoding and fetching of instructions
         /// </summary>
@@ -105,18 +110,28 @@ namespace NK4VM2
                         registers[2] |= 0x2;
                         break;
                     case "LOD":
+						if (registers[1] == 2)
+						{
+							registers[0] = (Bus.Get_Values())[0];
+						}
                         registers[0] = mainMemory[registers[1]];
                         break;
                     case "STR":
+
                         if (registers[1] == 1)
                         {
-					mainMemory[registers[1]] &= 0x3;
-					mainMemory[registers[1]]= (UInt16)(((UInt16)registers[0] & 0xC) | mainMemory[registers[1]]);
+							mainMemory[registers[1]] &= 0x3;
+							mainMemory[registers[1]]= (UInt16)(((UInt16)registers[0] & 0xC) | mainMemory[registers[1]]);
                         }
                         else
                         {
                             mainMemory[registers[1]] = (UInt16) registers[0];
                         }
+						if (registers[1] < 3)
+						{
+							Bus.Update_Bus(mainMemory[2], mainMemory[1], mainMemory[0], 16);
+							
+						}
 
                         break;
                     case "ADD":
@@ -292,12 +307,10 @@ namespace NK4VM2
         /// <param name="ioPortsForm"></param>
         /// <param name="registerForm"></param>
         /// <param name="memoryForm"></param>
-        public SimulatorForm(UInt16[] mem, int[] regs, TextBox mes, IOPortsForm ioPortsForm, RegisterForm registerForm, MemoryForm memoryForm)
+        public SimulatorForm(UInt16[] mem, int[] regs, TextBox mes, IOPortsForm ioPortsForm, RegisterForm registerForm, MemoryForm memoryForm, BusForm busForm)
         {
             InitializeComponent();
-            this.ioPortsForm = ioPortsForm;
-            this.registerForm = registerForm;
-            this.memoryForm = memoryForm;
+			Update_References(ioPortsForm, registerForm, memoryForm, busForm);
             instructionWorker = new Instruction();
             messages = mes;
             mainMemory = mem;
@@ -377,7 +390,7 @@ namespace NK4VM2
             try
             {
                 //Make sure a program is not already running
-                if (thread.IsAlive)
+                if (thread != null && thread.IsAlive)
                 {
                     SetText(messages.Text + "CANNOT STEP WHILE RUNNING\r\n", messages);
                     return;
@@ -403,6 +416,10 @@ namespace NK4VM2
                 {
                     registerForm.Update_Registers();
                 }
+				if (busForm != null)
+				{
+					busForm.Update_View();
+				}
                 SetText(currentInstruction, previousInstructionTextBox);
                 SetText(nextInstruction, nextInstructionTextBox);
                 Update_Messages();
@@ -413,11 +430,11 @@ namespace NK4VM2
                 messages.Text = "Invalid starting location.\r\n";
                 return;
             }
-            catch (Exception)
+ /*           catch (Exception ex)
             {
-                messages.Text = "Invalid starting location\r\n";
+                messages.Text = ex.Message;
                 return;
-            }
+            }*/
         }
 
         private void periodToolStripTextBox_TextChanged(object sender, EventArgs e)
@@ -448,6 +465,7 @@ namespace NK4VM2
         {
             
             shouldStop = false;
+			Bus.Update_Bus(mainMemory[2], mainMemory[1], mainMemory[0], 16);
 
             while (!shouldStop && ((registers[2] & 0x2) != 0x2))
             {
@@ -464,6 +482,10 @@ namespace NK4VM2
                 {
                     registerForm.Update_Registers();
                 }
+				if (busForm != null)
+				{
+					busForm.Update_View();
+				}
                 //Update message window and instruction windows
                 SetText(currentInstruction, previousInstructionTextBox);
                 SetText(nextInstruction, nextInstructionTextBox);
@@ -534,7 +556,20 @@ namespace NK4VM2
             SetScroll(messages);
         }
 
-   
+
+          /// <summary> 
+         /// Updates local references incase new windows have been opened 
+         /// </summary> 
+         /// <param name="ioPortsForm"></param> 
+         /// <param name="registerForm"></param> 
+         /// <param name="memoryForm"></param> 
+         public void Update_References(IOPortsForm ioPortsForm, RegisterForm registerForm, MemoryForm memoryForm, BusForm busForm) 
+         { 
+             this.ioPortsForm = ioPortsForm; 
+             this.registerForm = registerForm; 
+             this.memoryForm = memoryForm;
+			 this.busForm = busForm;
+         } 
 
 
 
