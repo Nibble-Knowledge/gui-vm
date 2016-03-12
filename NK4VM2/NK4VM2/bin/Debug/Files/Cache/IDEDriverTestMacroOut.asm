@@ -8,6 +8,8 @@ INF 19
 NOP 1000
 LOD N_[F]
 STR CHIP_SELECT
+LOD N_[0]
+STR STATUS_BUS
 LOD N_[4]
 STR STATUS_BUS
 LOD N_[0]
@@ -65,7 +67,7 @@ HLT
 IDE_DRIVER.Enter:
 
 #Subject to change if necessary
-LOD N_[1]
+LOD N_[0]
 STR CHIP_SELECT[0]
 
 #Arrange our location table
@@ -77,6 +79,10 @@ LOD IDE_DRIVER.Cyl[0]
 STR IDE_DRIVER.Cyl01[0]
 LOD IDE_DRIVER.Cyl[1]
 STR IDE_DRIVER.Cyl01[1]
+
+LOD N_[0]
+STR IDE_DRIVER.LoopCount[0]
+STR IDE_DRIVER.LoopCount[1]
 
 #Setup our pointers for the location loop
 LOD &(IDE_DRIVER.RegTable[0])[0]
@@ -210,10 +216,8 @@ LOD N_[0]
 ADD N_[0]
 LOD macro[0]
 ADD N_[F]
-CXA 0
-NND N_[1]
-NND N_[1]
-NND N_[F]
+LOD N_[F]
+ADD N_[0]
 JMP IDE_DRIVER.SetupLoop
 #Repeat 5 times
 
@@ -497,18 +501,33 @@ STR IDE_DRIVER.LoopCount[1]
 LOD N_[0]
 ADD IDE_DRIVER.LoopCount[0]
 STR IDE_DRIVER.LoopCount[0]
-LOD N_[0]
-ADD N_[0]
+LOD IDE_DRIVER.LoopCount[0]
+NND IDE_DRIVER.ZeroByte[0]
 STR macro[0]
-LOD N_[0]
-ADD N_[0]
+NND IDE_DRIVER.LoopCount[0]
+STR macro[1]
 LOD macro[0]
-ADD N_[F]
-CXA 0
-NND N_[1]
-NND N_[1]
+NND IDE_DRIVER.ZeroByte[0]
+NND macro[1]
+STR macro[2]
+LOD IDE_DRIVER.LoopCount[1]
+NND IDE_DRIVER.ZeroByte[1]
+STR macro[0]
+NND IDE_DRIVER.LoopCount[1]
+STR macro[1]
+LOD macro[0]
+NND IDE_DRIVER.ZeroByte[1]
+NND macro[1]
+STR macro[3]
+LOD macro[2]
 NND N_[F]
-JMP IDE_DRIVER.DoneReadLoop
+STR macro[0]
+LOD macro[3]
+NND N_[F]
+NND macro[0]
+STR macro[1]
+LOD macro[1]
+JMP IDE_DRIVER.DoneReadLoop[0]
 
 LOD N_[0]
 JMP IDE_DRIVER.ReadLoop
@@ -726,10 +745,8 @@ LOD N_[0]
 ADD N_[0]
 LOD macro[0]
 ADD N_[F]
-CXA 0
-NND N_[1]
-NND N_[1]
-NND N_[F]
+LOD N_[F]
+ADD N_[0]
 JMP IDE_DRIVER.DoneWriteLoop
 
 LOD N_[0]
@@ -803,10 +820,8 @@ LOD N_[0]
 ADD N_[0]
 LOD macro[0]
 ADD N_[F]
-CXA 0
-NND N_[1]
-NND N_[1]
-NND N_[F]
+LOD N_[F]
+ADD N_[0]
 JMP IDE_DRIVER.CheckWriteLoop
 
 #Check the status register one last time,
@@ -865,7 +880,7 @@ LOD N_[0]
 STR STATUS_BUS[0]
 
 IDE_DRIVER.Done:
-LOD N_[0]
+LOD N_[15]
 STR CHIP_SELECT[0]
 #Exit - this needs the return address to be supplied
 LOD N_[0]
@@ -899,12 +914,13 @@ IDE_DRIVER.Cyl23: .data 2
 IDE_DRIVER.Cyl01: .data 2
 IDE_DRIVER.Head: .data 2 0xE0
 IDE_DRIVER.DataPtr: .data 4
-IDE_DRIVER.LoopCount: .data 2 0x0
+IDE_DRIVER.LoopCount: .data 2 0x00
 IDE_DRIVER.LocationLoop: .data 1 0x0
 IDE_DRIVER.Status: .data 2
+IDE_DRIVER.ZeroByte: .data 2 0x00
 
 ;End of data from driver.s
 
 ;memory space used by macros
-macro: .data 1
+macro: .data 4
 

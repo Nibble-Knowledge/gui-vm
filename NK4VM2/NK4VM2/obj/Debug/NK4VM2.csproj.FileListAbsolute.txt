@@ -23,3 +23,5 @@ C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.Simulator
 C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.csproj.GenerateResource.Cache
 C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.exe
 C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.pdb
+C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.BusForm.resources
+C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\obj\Debug\NK4VM2.HardDrivePeripheralForm.resources

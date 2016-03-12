@@ -44,17 +44,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bus.cs" />
+    <Compile Include="BusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BusForm.Designer.cs">
+      <DependentUpon>BusForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FileForm.Designer.cs">
       <DependentUpon>FileForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HardDrivePeripheral.cs">
+    <Compile Include="HardDrivePeripheralForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HardDrivePeripheral.Designer.cs">
-      <DependentUpon>HardDrivePeripheral.cs</DependentUpon>
+    <Compile Include="HardDrivePeripheralForm.Designer.cs">
+      <DependentUpon>HardDrivePeripheralForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IOPortsForm.cs">
       <SubType>Form</SubType>
@@ -88,8 +95,14 @@
     <Compile Include="SimulatorForm.Designer.cs">
       <DependentUpon>SimulatorForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BusForm.resx">
+      <DependentUpon>BusForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FileForm.resx">
       <DependentUpon>FileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HardDrivePeripheralForm.resx">
+      <DependentUpon>HardDrivePeripheralForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IOPortsForm.resx">
       <DependentUpon>IOPortsForm.cs</DependentUpon>
