@@ -1,6 +1,7 @@
 # Nibble Knowledge CPU GUI
 
 GUI of Nibble Knowledge CPU Virtual Machine
+REPORT BUGS OR SUGGESTIONS TO BAILEY TYE
 
 Features:
  - Write, edit, and assemble NK4 Assembly and Macro Assembly
