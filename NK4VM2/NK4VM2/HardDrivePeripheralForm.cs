@@ -65,7 +65,7 @@ namespace NK4VM2
 				{
 					for (int j = 0; j < 256; j++)
 					{
-						contents[i, j] = 15;
+						contents[i, j] = 0xABCD;
 					}
 				}
 			}
@@ -139,11 +139,7 @@ namespace NK4VM2
                         interfaceRegisters[4] = dataIn;
                         break;
                     case 7:
-                        if (!DIOR)
-                        {				
-                         
-                        }
-                        else if (!DIOW) //Writing to a hard drive register;
+                        if (!DIOW) //Writing to a hard drive register;
                         {
                             data = (interfaceRegisters[1] << 12) | (interfaceRegisters[2] << 8) | (interfaceRegisters[3] << 4) | interfaceRegisters[4];
 
@@ -155,7 +151,7 @@ namespace NK4VM2
                                 {
                                     //This is a hard drive write/read command
                                     hdRegisters[0xF] |= 0x8;
-                                    dataLeft = 256 * hdRegisters[0xA]; //There are 512 bytes of data in each sector, reg A is how many registers to transfer, each transfer
+                                    dataLeft = 256 * (hdRegisters[0xA] & 0xFF); //There are 512 bytes of data in each sector, reg A is how many registers to transfer, each transfer
 									dataLeft--; 						                     //sends 2 bytes at a time, therefore 256 transfers required per sector
                                 }
 
@@ -170,22 +166,19 @@ namespace NK4VM2
                                 if (dataLeft == -1)
                                 {
                                     hdRegisters[0xF] &= 0x00F0;
+									hdRegisters[0xA]--; 
                                 }
                             }
                             else
                             {
                                 // Update the register that is requested with the data sent
                                 hdRegisters[interfaceRegisters[0]] = data;
-                            }
-                            
-                           
+                            }                
                         }
                         break;
                     case 8:
-
                         break;
                     case 9:
-
                         break;
                     case 10:
 
@@ -216,6 +209,7 @@ namespace NK4VM2
 							if (dataLeft == -1)
 							{
 								hdRegisters[0xF] &= 0x00F0;
+								hdRegisters[0xA]--; 
 							}
 						}
 						Bus.Update_Bus((hdRegisters[interfaceRegisters[0]] & 0xF000) >> 12, Bus.Get_Values()[1], Bus.Get_Values()[0], id);
@@ -258,9 +252,9 @@ namespace NK4VM2
         public void AccessHD(int address, bool write)
         {
 			int LBA = 0;
-			LBA |= hdRegisters[0xB];
-			LBA |= (hdRegisters[0xC] << 8);
-			LBA |= (hdRegisters[0xD] << 16);
+			LBA |= (hdRegisters[0xB] & 0xFF);
+			LBA |= ((hdRegisters[0xC] & 0xFF) << 8);
+			LBA |= ((hdRegisters[0xD] & 0xFF) << 16);
 			LBA |= ((hdRegisters[0xE] & 0xF) << 24);
 
 			if (write)
@@ -316,7 +310,7 @@ namespace NK4VM2
 						cs = false;
 					}
 
-					Thread.Sleep(1);
+					//Thread.Sleep(1);
 					prevValues = newValues;
 					edgeDetector(r, w, cs, newValues[0]);
 				}

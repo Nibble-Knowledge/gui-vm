@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace NK4VM2
 {
@@ -170,6 +171,7 @@ namespace NK4VM2
 
                 String fileName = this.Name;
                 string fileOut;
+				String error = "";
 
                 if (level > 1)
                 {
@@ -181,7 +183,11 @@ namespace NK4VM2
                     p.StartInfo.Arguments = " " + fileName + " " + fileOut;
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.CreateNoWindow = true;
+					p.StartInfo.RedirectStandardError = true;
+
                     p.Start();
+					Thread.Sleep(1);
+					error += p.StandardError.ReadToEnd();
                     p.WaitForExit();
 
                     //Use label replacer:
@@ -192,7 +198,10 @@ namespace NK4VM2
                     q.StartInfo.Arguments = " " + "standard.def " + fileName + " " + fileOut;
                     q.StartInfo.UseShellExecute = false;
                     q.StartInfo.CreateNoWindow = true;
+					q.StartInfo.RedirectStandardError = true;
                     q.Start();
+					Thread.Sleep(1);
+					error += q.StandardError.ReadToEnd();
                     q.WaitForExit();
 
                     fileName = fileOut;
@@ -205,13 +214,23 @@ namespace NK4VM2
                 s.StartInfo.Arguments = "-b " + baseAddressToolStripTextBox.Text + " " + fileName + " " + fileOut;
                 s.StartInfo.UseShellExecute = false;
                 s.StartInfo.CreateNoWindow = true;
+				s.StartInfo.RedirectStandardError = true;
                 s.Start();
+				Thread.Sleep(1);
+				error += s.StandardError.ReadToEnd();
                 s.WaitForExit();
 
-                messages.Text = "";
                 fileChanged = false;
                 Import_Binary(fileOut);
-                messages.Text = "Assembly Successful!\r\n";
+
+				if (error.Equals(""))
+				{
+					messages.Text = "Assembly Successful!\r\n";
+				}
+				else
+				{
+					messages.Text = error;
+				}
             }
             catch (ArgumentException)
             {

@@ -477,6 +477,7 @@ namespace NK4VM2
                 instructionWorker.Fetch_Instruction();
                 Thread.Sleep(period);
 
+				/*
                 //Update the forms that are currently open
                 if (ioPortsForm != null)
                 {
@@ -490,10 +491,12 @@ namespace NK4VM2
 				{
 					busForm.Update_View();
 				}
+				 */
                 //Update message window and instruction windows
                 SetText(currentInstruction, previousInstructionTextBox);
                 SetText(nextInstruction, nextInstructionTextBox);
-                Update_Messages();
+                //Update_Messages();
+				
             }
         }
 

@@ -129,6 +129,7 @@ namespace NK4VM2
                         // Display the new form.
                         fileForm.Text = openFileDialog.FileName;
                         fileForm.Name = openFileDialog.FileName;
+						fileForm.FormClosing += Close_FormFile;
                     }
 
                     fileForm.Show();
@@ -330,6 +331,10 @@ namespace NK4VM2
 		{
 			hardDrivePeripheralForm.Stop_Thread();
 			hardDrivePeripheralForm = null;
+		}
+		public void Close_FormFile(object sender, EventArgs e)
+		{
+			fileForm = null;
 		}
 
 
