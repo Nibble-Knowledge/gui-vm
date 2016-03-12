@@ -127,7 +127,7 @@ namespace NK4VM2
                         // Set the parent form of the child window.
                         fileForm.MdiParent = this;
                         // Display the new form.
-                        fileForm.Text = openFileDialog.FileName;
+                        fileForm.Text = Path.GetFileName(openFileDialog.FileName);
                         fileForm.Name = openFileDialog.FileName;
 						fileForm.FormClosing += Close_FormFile;
                     }

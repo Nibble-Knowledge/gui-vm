@@ -477,25 +477,38 @@ namespace NK4VM2
                 instructionWorker.Fetch_Instruction();
                 Thread.Sleep(period);
 
-				/*
-                //Update the forms that are currently open
-                if (ioPortsForm != null)
-                {
-                    ioPortsForm.Update_IO();
-                }
-                if (registerForm != null)
-                {
-                    registerForm.Update_Registers();
-                }
-				if (busForm != null)
+				//Update message window and instruction windows
+				SetText(currentInstruction, previousInstructionTextBox);
+				SetText(nextInstruction, nextInstructionTextBox);
+				if ((currentInstruction.Substring(0, 3) == "NOP") && (registers[1] == 1000))
 				{
-					busForm.Update_View();
+					shouldStop = true;
 				}
-				 */
-                //Update message window and instruction windows
-                SetText(currentInstruction, previousInstructionTextBox);
-                SetText(nextInstruction, nextInstructionTextBox);
-                //Update_Messages();
+
+				if (printMessagesCheckBox.Checked)
+				{
+					Update_Messages();
+				}
+				if (updateFormsCheckBox.Checked)
+				{
+					//Update the forms that are currently open
+					if (ioPortsForm != null)
+					{
+						ioPortsForm.Update_IO();
+					}
+					if (registerForm != null)
+					{
+						registerForm.Update_Registers();
+					}
+					if (busForm != null)
+					{
+						busForm.Update_View();
+					}
+				}
+
+				 
+
+
 				
             }
         }
@@ -576,7 +589,12 @@ namespace NK4VM2
              this.registerForm = registerForm; 
              this.memoryForm = memoryForm;
 			 this.busForm = busForm;
-         } 
+		 }
+
+		 private void printMessagesCheckBox_CheckedChanged(object sender, EventArgs e)
+		 {
+
+		 } 
 
 
 

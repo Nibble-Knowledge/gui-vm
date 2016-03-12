@@ -56,7 +56,7 @@ namespace NK4VM2
                     string text = File.ReadAllText(file);
                     fileFormTextBox.Text = text;
                     this.Name = openFileDialog.FileName;
-                    this.Text = openFileDialog.FileName;
+                    this.Text = Path.GetFileName(openFileDialog.FileName);
                     fileChanged = false;
                 }
                 catch (IOException)
