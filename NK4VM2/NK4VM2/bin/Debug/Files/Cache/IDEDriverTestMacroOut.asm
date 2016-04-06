@@ -1,6 +1,6 @@
 INF 19
 
-;Start of code from C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\bin\Debug\Files\ASMs\IDEDriverTest.txt
+;Start of code from C:\Users\Bailey\Desktop\GUIVM\Files\ASMs\IDEDriverTest.txt
 
 
 ;Included driver.s
@@ -38,6 +38,7 @@ STR IDE_DRIVER.Cyl[3]
 LOD READ[0]
 STR IDE_DRIVER.ZeroToWrite[0]
 
+NOP 1000
 LOD &(RETURN[0])[0]
 STR IDE_DRIVER.Exit[1]
 LOD &(RETURN[0])[1]
@@ -47,7 +48,6 @@ STR IDE_DRIVER.Exit[3]
 LOD &(RETURN[0])[3]
 STR IDE_DRIVER.Exit[4]
 LOD N_[0]
-NOP 1000
 JMP IDE_DRIVER.Enter
 RETURN:
 LOD IDE_DRIVER.Status[0]
@@ -59,7 +59,7 @@ JMP 0xC350
 HLT
 
 
-;End of code from C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\bin\Debug\Files\ASMs\IDEDriverTest.txt
+;End of code from C:\Users\Bailey\Desktop\GUIVM\Files\ASMs\IDEDriverTest.txt
 
 ;Start of code from driver.s
 
@@ -67,7 +67,7 @@ HLT
 IDE_DRIVER.Enter:
 
 #Subject to change if necessary
-LOD N_[0]
+LOD CS_HD[0]
 STR CHIP_SELECT[0]
 
 #Arrange our location table
@@ -79,10 +79,6 @@ LOD IDE_DRIVER.Cyl[0]
 STR IDE_DRIVER.Cyl01[0]
 LOD IDE_DRIVER.Cyl[1]
 STR IDE_DRIVER.Cyl01[1]
-
-LOD N_[0]
-STR IDE_DRIVER.LoopCount[0]
-STR IDE_DRIVER.LoopCount[1]
 
 #Setup our pointers for the location loop
 LOD &(IDE_DRIVER.RegTable[0])[0]
@@ -354,14 +350,14 @@ JMP IDE_DRIVER.CheckReadLoop
 #Drive is ready, time to start reading
 
 LOD IDE_DRIVER.DataPtr[0]
-STR IDE_DRIVER.RPtr4[1]
+STR IDE_DRIVER.RPtr3[1]
 LOD IDE_DRIVER.DataPtr[1]
-STR IDE_DRIVER.RPtr4[2]
+STR IDE_DRIVER.RPtr3[2]
 LOD IDE_DRIVER.DataPtr[2]
-STR IDE_DRIVER.RPtr4[3]
+STR IDE_DRIVER.RPtr3[3]
 LOD IDE_DRIVER.DataPtr[3]
-STR IDE_DRIVER.RPtr4[4]
-
+STR IDE_DRIVER.RPtr3[4]
+NOP 0d1000
 IDE_DRIVER.ReadLoop:
 
 LOD N_[4]
@@ -400,45 +396,45 @@ STR STATUS_BUS[0]
 LOD N_[8]
 ADD N_[8]
 LOD N_[0]
-ADD IDE_DRIVER.RPtr4[4]
-STR IDE_DRIVER.RPtr3[4]
-LOD N_[0]
-ADD IDE_DRIVER.RPtr4[3]
-STR IDE_DRIVER.RPtr3[3]
-LOD N_[0]
-ADD IDE_DRIVER.RPtr4[2]
-STR IDE_DRIVER.RPtr3[2]
-LOD N_[0]
-ADD IDE_DRIVER.RPtr4[1]
-STR IDE_DRIVER.RPtr3[1]
-LOD N_[8]
-ADD N_[8]
-LOD N_[0]
 ADD IDE_DRIVER.RPtr3[4]
-STR IDE_DRIVER.RPtr2[4]
+STR IDE_DRIVER.RPtr4[4]
 LOD N_[0]
 ADD IDE_DRIVER.RPtr3[3]
-STR IDE_DRIVER.RPtr2[3]
+STR IDE_DRIVER.RPtr4[3]
 LOD N_[0]
 ADD IDE_DRIVER.RPtr3[2]
-STR IDE_DRIVER.RPtr2[2]
+STR IDE_DRIVER.RPtr4[2]
 LOD N_[0]
 ADD IDE_DRIVER.RPtr3[1]
-STR IDE_DRIVER.RPtr2[1]
+STR IDE_DRIVER.RPtr4[1]
 LOD N_[8]
 ADD N_[8]
 LOD N_[0]
-ADD IDE_DRIVER.RPtr2[4]
+ADD IDE_DRIVER.RPtr4[4]
 STR IDE_DRIVER.RPtr1[4]
 LOD N_[0]
-ADD IDE_DRIVER.RPtr2[3]
+ADD IDE_DRIVER.RPtr4[3]
 STR IDE_DRIVER.RPtr1[3]
 LOD N_[0]
-ADD IDE_DRIVER.RPtr2[2]
+ADD IDE_DRIVER.RPtr4[2]
 STR IDE_DRIVER.RPtr1[2]
 LOD N_[0]
-ADD IDE_DRIVER.RPtr2[1]
+ADD IDE_DRIVER.RPtr4[1]
 STR IDE_DRIVER.RPtr1[1]
+LOD N_[8]
+ADD N_[8]
+LOD N_[0]
+ADD IDE_DRIVER.RPtr1[4]
+STR IDE_DRIVER.RPtr2[4]
+LOD N_[0]
+ADD IDE_DRIVER.RPtr1[3]
+STR IDE_DRIVER.RPtr2[3]
+LOD N_[0]
+ADD IDE_DRIVER.RPtr1[2]
+STR IDE_DRIVER.RPtr2[2]
+LOD N_[0]
+ADD IDE_DRIVER.RPtr1[1]
+STR IDE_DRIVER.RPtr2[1]
 
 
 LOD N_[8]
@@ -738,16 +734,33 @@ STR IDE_DRIVER.LoopCount[1]
 LOD N_[0]
 ADD IDE_DRIVER.LoopCount[0]
 STR IDE_DRIVER.LoopCount[0]
-LOD N_[0]
-ADD N_[0]
+LOD IDE_DRIVER.LoopCount[0]
+NND IDE_DRIVER.ZeroByte[0]
 STR macro[0]
-LOD N_[0]
-ADD N_[0]
+NND IDE_DRIVER.LoopCount[0]
+STR macro[1]
 LOD macro[0]
-ADD N_[F]
-LOD N_[F]
-ADD N_[0]
-JMP IDE_DRIVER.DoneWriteLoop
+NND IDE_DRIVER.ZeroByte[0]
+NND macro[1]
+STR macro[2]
+LOD IDE_DRIVER.LoopCount[1]
+NND IDE_DRIVER.ZeroByte[1]
+STR macro[0]
+NND IDE_DRIVER.LoopCount[1]
+STR macro[1]
+LOD macro[0]
+NND IDE_DRIVER.ZeroByte[1]
+NND macro[1]
+STR macro[3]
+LOD macro[2]
+NND N_[F]
+STR macro[0]
+LOD macro[3]
+NND N_[F]
+NND macro[0]
+STR macro[1]
+LOD macro[1]
+JMP IDE_DRIVER.DoneWriteLoop[0]
 
 LOD N_[0]
 JMP IDE_DRIVER.WriteLoop
@@ -880,7 +893,7 @@ LOD N_[0]
 STR STATUS_BUS[0]
 
 IDE_DRIVER.Done:
-LOD N_[15]
+LOD N_[f]
 STR CHIP_SELECT[0]
 #Exit - this needs the return address to be supplied
 LOD N_[0]
@@ -888,19 +901,20 @@ IDE_DRIVER.Exit:
 JMP 0x0000
 
 
+
 ;End of code from driver.s
 ;Start of data sections
-;Start of data from C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\bin\Debug\Files\ASMs\IDEDriverTest.txt
+;Start of data from C:\Users\Bailey\Desktop\GUIVM\Files\ASMs\IDEDriverTest.txt
 
 ADDRESS: .data 4 0d50000
-SEC: .data 2 0x01
+SEC: .data 2 0x00
 CYL: .data 4 0x0000
 READ: .data 1 0x1
 STAT: .data 2
 
 
 
-;End of data from C:\Users\Bailey\Documents\GitHub\gui-vm\NK4VM2\NK4VM2\bin\Debug\Files\ASMs\IDEDriverTest.txt
+;End of data from C:\Users\Bailey\Desktop\GUIVM\Files\ASMs\IDEDriverTest.txt
 
 ;Start of data from driver.s
 
@@ -914,7 +928,7 @@ IDE_DRIVER.Cyl23: .data 2
 IDE_DRIVER.Cyl01: .data 2
 IDE_DRIVER.Head: .data 2 0xE0
 IDE_DRIVER.DataPtr: .data 4
-IDE_DRIVER.LoopCount: .data 2 0x00
+IDE_DRIVER.LoopCount: .data 2 0x0
 IDE_DRIVER.LocationLoop: .data 1 0x0
 IDE_DRIVER.Status: .data 2
 IDE_DRIVER.ZeroByte: .data 2 0x00

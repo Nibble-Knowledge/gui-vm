@@ -591,12 +591,6 @@ namespace NK4VM2
 			 this.busForm = busForm;
 		 }
 
-		 private void printMessagesCheckBox_CheckedChanged(object sender, EventArgs e)
-		 {
-
-		 } 
-
-
 
     }
 }

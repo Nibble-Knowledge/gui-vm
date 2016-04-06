@@ -28,8 +28,8 @@ JMP 0xC350
 HLT
 
 ADDRESS: .data 4 0d50000 
-SEC: .data 2 0x01
-CYL: .data 4 0x0000
+SEC: .data 2 0x20
+CYL: .data 4 0x0069
 READ: .data 1 0x1
 STAT: .data 2
 

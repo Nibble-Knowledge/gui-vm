@@ -45,6 +45,8 @@
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.messagesTextBox = new System.Windows.Forms.TextBox();
+			this.tOBEADDEDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tOBEADDEDToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -82,6 +84,8 @@
 			// 
 			// editToolStripMenuItem
 			// 
+			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tOBEADDEDToolStripMenuItem1});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
 			this.editToolStripMenuItem.Text = "&Edit";
@@ -169,6 +173,8 @@
 			// 
 			// helpToolStripMenuItem
 			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tOBEADDEDToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(61, 29);
 			this.helpToolStripMenuItem.Text = "&Help";
@@ -196,6 +202,18 @@
 			this.messagesTextBox.TabIndex = 4;
 			this.messagesTextBox.TabStop = false;
 			this.messagesTextBox.Text = "Open a file to begin";
+			// 
+			// tOBEADDEDToolStripMenuItem
+			// 
+			this.tOBEADDEDToolStripMenuItem.Name = "tOBEADDEDToolStripMenuItem";
+			this.tOBEADDEDToolStripMenuItem.Size = new System.Drawing.Size(211, 30);
+			this.tOBEADDEDToolStripMenuItem.Text = "TO BE ADDED";
+			// 
+			// tOBEADDEDToolStripMenuItem1
+			// 
+			this.tOBEADDEDToolStripMenuItem1.Name = "tOBEADDEDToolStripMenuItem1";
+			this.tOBEADDEDToolStripMenuItem1.Size = new System.Drawing.Size(211, 30);
+			this.tOBEADDEDToolStripMenuItem1.Text = "TO BE ADDED";
 			// 
 			// MainWindow
 			// 
@@ -238,6 +256,8 @@
 		private System.Windows.Forms.ToolStripMenuItem busToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem peripheralsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hardDriveToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tOBEADDEDToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem tOBEADDEDToolStripMenuItem;
     }
 }
 

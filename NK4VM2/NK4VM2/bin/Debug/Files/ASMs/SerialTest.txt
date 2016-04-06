@@ -1,0 +1,11 @@
+INF 19
+INCL serialdriver.s
+
+MOVADDR return INTO DRIVER_SERIAL.Exit[1]
+MOV8 DAT INTO DRIVER_SERIAL.TxByte
+LOD N_[0]
+JMP DRIVER_SERIAL.TxEnter
+return:
+NOP 0
+
+DAT: .data 2 0x41

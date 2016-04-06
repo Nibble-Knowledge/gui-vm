@@ -1,7 +1,7 @@
 INF 19
 INCL ps2driver.s
-Start:
 MOVADDR return INTO PS2_DRIVER.Exit[1]
+Start:
 LOD N_[0]
 JMP PS2_DRIVER.Enter
 return:
